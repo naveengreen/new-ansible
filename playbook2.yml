@@ -1,0 +1,28 @@
+---
+- name: configuring apache2 on all manage nodes
+  hosts: all
+  tasks:
+    - name: install apache2
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+    - name: edit index.html file
+      copy:
+       content: "welcome to NAVEEN World"
+       dest: /var/www/html/index.html
+    - name: restarting apache2
+      service:
+       name: apache2
+       state: restarted
+    - name: checking apache2 response on server1
+      uri:
+       url: http://172.31.84.142
+       status_code: 200
+    - name: checking apache2 response on server2
+      uri:
+       url: http://172.31.82.136
+       status_code: 200
+
+...
+
